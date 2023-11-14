@@ -1,0 +1,45 @@
+﻿@page "/"
+@inject HttpClient Http
+
+<PageTitle>Blazing Trails</PageTitle>
+
+@if (_trails == null)
+{
+    <p>Loading trails...</p>
+}
+else
+{
+    //passing parameter selected trail in TrailDetails
+    <TrailDetails Trail="_selectedTrail" />
+    <div class="grid">
+        @foreach (var trail in _trails)
+        {
+            <TrailCard Trail="trail" OnSelected="(() => HandleTrailSelected(trail))" />
+        }
+    </div>
+}
+
+
+@code{
+    //to store data from httpclient (json test)
+    private IEnumerable<Trail>? _trails;
+    private Trail? _selectedTrail;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _trails = await Http.GetFromJsonAsync<IEnumerable<Trail>>("trails/trail-data.json");
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"There was a problem loading trail data: {ex.Message}");   
+        }
+    }
+
+    private void HandleTrailSelected(Trail trail)
+    {
+        _selectedTrail = trail;
+        //StateHasChanged(); ne treba kad koristimo EventCallback
+    }
+}
