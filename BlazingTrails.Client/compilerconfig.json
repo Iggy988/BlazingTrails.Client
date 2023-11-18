@@ -2,5 +2,10 @@
   {
     "outputFile": "Features/Home/TrailDetails.razor.css",
     "inputFile": "Features/Home/TrailDetails.razor.scss"
+  },
+  {
+    "outputFile": "Features/Home/TrailSearch.razor.css",
+    "inputFile": "Features/Home/TrailSearch.razor.scss",
+    "minify": {"enabled": false}
   }
 ]
