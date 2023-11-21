@@ -1,4 +1,5 @@
 ﻿@page "/search/{SearchTerm}"
+@page "/search/{SearchTerm}/maxlength/{MaxLength:int}"
 @inject HttpClient http
 @inject NavigationManager navManager
 
@@ -37,6 +38,8 @@ else
     private Trail? _selectedTrail;
     [Parameter] 
     public string SearchTerm { get; set; } = default!;
+    [Parameter]
+    public int? MaxLength { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
