@@ -6,6 +6,15 @@
   {
     "outputFile": "Features/Home/TrailSearch.razor.css",
     "inputFile": "Features/Home/TrailSearch.razor.scss",
-    "minify": {"enabled": false}
+    "minify": {
+      "enabled": false
+    }
+  },
+  {
+    "outputFile": "Features/Home/SearchFilter.razor.css",
+    "inputFile": "Features/Home/SearchFilter.razor.scss",
+    "minify": {
+      "enabled": false
+    }
   }
 ]

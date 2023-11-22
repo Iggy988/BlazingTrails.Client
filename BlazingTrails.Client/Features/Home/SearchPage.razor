@@ -15,6 +15,7 @@
 
 
 <h3 class="mt-5 mb-4">Search results for "@SearchTerm"</h3>
+<SearchFilter SearchTerm="@SearchTerm" />
 
 @if (_searchResults == null)
 {
@@ -34,6 +35,7 @@ else
 
 
 @code {
+    private IEnumerable<Trail> _cachedSearchResults = Array.Empty<Trail>();
     private IEnumerable<Trail>? _searchResults;
     private Trail? _selectedTrail;
     [Parameter] 
@@ -48,10 +50,26 @@ else
             var allTrails = await http.GetFromJsonAsync<IEnumerable<Trail>>("trails/trail-data.json");
             _searchResults = allTrails!.Where(x => x.Name.Contains(SearchTerm, StringComparison.CurrentCultureIgnoreCase) ||
                 x.Location.Contains(SearchTerm, StringComparison.CurrentCultureIgnoreCase));
+            //stores copy of unfiltered search results
+            _cachedSearchResults = _searchResults;
         }
         catch (HttpRequestException ex)
         {
             Console.WriteLine($"There was a problem loading trail data: {ex.Message}");   
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        //Check for cached search results and a filter value; if both are present, then filter the results.
+        if (_cachedSearchResults.Any() && MaxLength.HasValue)
+        {
+            _searchResults = _cachedSearchResults.Where(x => x.Length <= MaxLength.Value);
+        }
+        //If there are cached search results but no filter, then reset the results to the unfiltered set.
+        else if(_cachedSearchResults.Any() && MaxLength is null)
+        {
+            _searchResults = _cachedSearchResults;
         }
     }
 
