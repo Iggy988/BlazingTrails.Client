@@ -59,6 +59,8 @@ else
         }
     }
 
+    //koristimo OnParametersSet() zato sto OnInitializedAsync() execute only once in comp lifecycle, sto znaci da nece execute kad dodamo filter
+    // OnParametersSet() ce execute svali put kad dodamo filter
     protected override void OnParametersSet()
     {
         //Check for cached search results and a filter value; if both are present, then filter the results.
