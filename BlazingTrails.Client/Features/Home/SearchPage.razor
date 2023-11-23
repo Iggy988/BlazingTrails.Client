@@ -40,8 +40,10 @@ else
     private Trail? _selectedTrail;
     [Parameter] 
     public string SearchTerm { get; set; } = default!;
-    [Parameter]
+    [Parameter, SupplyParameterFromQuery]
     public int? MaxLength { get; set; }
+    [Parameter, SupplyParameterFromQuery]
+    public int? MaxTime { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -63,14 +65,40 @@ else
     // OnParametersSet() ce execute svali put kad dodamo filter
     protected override void OnParametersSet()
     {
-        //Check for cached search results and a filter value; if both are present, then filter the results.
-        if (_cachedSearchResults.Any() && MaxLength.HasValue)
+        // //Check for cached search results and a filter value; if both are present, then filter the results.
+        // if (_cachedSearchResults.Any() && MaxLength.HasValue)
+        // {
+        //     _searchResults = _cachedSearchResults.Where(x => x.Length <= MaxLength.Value);
+        // }
+        // //If there are cached search results but no filter, then reset the results to the unfiltered set.
+        // else if(_cachedSearchResults.Any() && MaxLength is null)
+        // {
+        //     _searchResults = _cachedSearchResults;
+        // }
+        UpdateFilters();
+    }
+
+    private void UpdateFilters()
+    {
+        var filters = new List<Func<Trail, bool>>();
+        //If a max length filter is defined, add the lambda to filter it to the filters list.
+        if (MaxLength is not null && MaxLength > 0)
         {
-            _searchResults = _cachedSearchResults.Where(x => x.Length <= MaxLength.Value);
+            filters.Add(x => x.Length <= MaxLength);
         }
-        //If there are cached search results but no filter, then reset the results to the unfiltered set.
-        else if(_cachedSearchResults.Any() && MaxLength is null)
+        //If a max time filter is defined, add the lambda to filter it to the filters list.
+        if (MaxTime is not null && MaxTime > 0)
         {
+            filters.Add(x => x.TimeInMinutes <= MaxTime * 60);
+        }
+        //Otherwise, use the unfiltered cached search results.
+        if (filters.Any())
+        {
+            _searchResults = _cachedSearchResults.Where(trail => filters.All(filter => filter(trail)));
+        }
+        else
+        {
+            //if there are any filters, filter the cached search results using them.
             _searchResults = _cachedSearchResults;
         }
     }
