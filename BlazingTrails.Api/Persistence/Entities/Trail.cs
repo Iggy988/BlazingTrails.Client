@@ -15,10 +15,8 @@ public class Trail
     public int TimeInMinutes { get; set; }
     public int Length { get; set; }
 
-    // one to many relation (Trail has many RouteInstruction)
     public ICollection<RouteInstruction> Route { get; set; } = default!;
 }
-
 
 public class TrailConfig : IEntityTypeConfiguration<Trail>
 {
