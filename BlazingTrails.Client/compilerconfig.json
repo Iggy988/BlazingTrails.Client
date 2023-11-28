@@ -16,5 +16,9 @@
     "minify": {
       "enabled": false
     }
+  },
+  {
+    "outputFile": "Features/ManageTrails/FormSection.razor.css",
+    "inputFile": "Features/ManageTrails/FormSection.razor.scss"
   }
 ]
