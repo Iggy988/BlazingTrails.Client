@@ -17,6 +17,7 @@ public class TrailDto
     }
 }
 
+//Fluent Validation setup class
 public class TrailValidator : AbstractValidator<TrailDto>
 {
     public TrailValidator()

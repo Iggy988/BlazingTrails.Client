@@ -14,11 +14,12 @@
 
 
 <EditForm Model="_trail" OnInvalidSubmit="SubmitForm">
-
+    <FluentValidationValidator />
     <FormSection Title="Basic Details" HelpText="This information is used to identify the trail and can be searched to help hikers find it.">
         <FormFieldSet Width="col-6">
             <label for="trailName" class="font-weight-bold text-secondary">Name</label>
             <InputText @bind-Value="_trail.Name" class="form-control" id="trailName" />
+            <ValidationMessage For="@(()=> _trail.Name)" />
         </FormFieldSet>
         <FormFieldSet>
             <label for="trailDescription" class="font-weight-bold text-secondary">Description</label>
@@ -27,6 +28,7 @@
         <FormFieldSet Width="col-6">
             <label for="trailLocation" class="font-weight-bold text-secondary">Location</label>
             <InputText @bind-Value="_trail.Location" class="form-control" id="trailLocation" />
+            <ValidationMessage For="@(()=> _trail.Description)" />
         </FormFieldSet>
     </FormSection>
 
@@ -34,6 +36,7 @@
         <FormFieldSet Width="col-3">
             <label for="trailLength" class="font-weight-bold text-secondary">Length (km)</label>
             <InputNumber @bind-Value="_trail.Length" class="form-control" id="trailLength" />
+            <ValidationMessage For="@(()=> _trail.Location)" />
         </FormFieldSet>
     </FormSection>
 
