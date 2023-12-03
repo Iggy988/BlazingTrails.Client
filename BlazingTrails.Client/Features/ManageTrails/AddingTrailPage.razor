@@ -24,11 +24,12 @@
         <FormFieldSet>
             <label for="trailDescription" class="font-weight-bold text-secondary">Description</label>
             <InputTextArea @bind-Value="_trail.Description" rows="6" class="form-control" id="trailDescription" />
+            <ValidationMessage For="@(()=> _trail.Description)" />
         </FormFieldSet>
         <FormFieldSet Width="col-6">
             <label for="trailLocation" class="font-weight-bold text-secondary">Location</label>
             <InputText @bind-Value="_trail.Location" class="form-control" id="trailLocation" />
-            <ValidationMessage For="@(()=> _trail.Description)" />
+            <ValidationMessage For="@(()=> _trail.Location)"  />
         </FormFieldSet>
     </FormSection>
 
@@ -36,7 +37,7 @@
         <FormFieldSet Width="col-3">
             <label for="trailLength" class="font-weight-bold text-secondary">Length (km)</label>
             <InputNumber @bind-Value="_trail.Length" class="form-control" id="trailLength" />
-            <ValidationMessage For="@(()=> _trail.Location)" />
+            <ValidationMessage For="@(()=> _trail.Length)"  />
         </FormFieldSet>
     </FormSection>
 

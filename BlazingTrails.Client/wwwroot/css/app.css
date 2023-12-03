@@ -64,6 +64,22 @@ a {
     z-index: 1000;
 }
 
+.validation-message {
+    color: red;
+}
+
+input.invalid,
+textarea.invalid,
+select.invalid {
+    border-color: red;
+}
+
+input.valid.modified,
+text.valid.modified,
+select.valid.modified {
+    border-color: green;
+}
+
 #blazor-error-ui .dismiss {
     cursor: pointer;
     position: absolute;
@@ -104,7 +120,4 @@ a {
 .loading-progress-text:after {
     content: var(--blazor-load-percentage-text, "Loading");
 }
-
-
-
 
