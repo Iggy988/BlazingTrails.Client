@@ -31,33 +31,41 @@ else if (_errorMessage is not null)
     </div>
 }
 
-
-<EditForm Model="_trail" OnInvalidSubmit="SubmitForm">
+<EditForm Model="_trail" OnValidSubmit="SubmitForm">
     <FluentValidationValidator />
-    <FormSection Title="Basic Details" HelpText="This information is used to identify the trail and can be searched to help hikers find it.">
+
+    <FormSection Title="Basic Details"
+                 HelpText="This information is used to identify the trail and can be searched to help hikers find it.">
+
         <FormFieldSet Width="col-6">
             <label for="trailName" class="font-weight-bold text-secondary">Name</label>
             <InputText @bind-Value="_trail.Name" class="form-control" id="trailName" />
-            <ValidationMessage For="@(()=> _trail.Name)" />
+            <ValidationMessage For="@(() => _trail.Name)" />
         </FormFieldSet>
+
         <FormFieldSet>
             <label for="trailDescription" class="font-weight-bold text-secondary">Description</label>
             <InputTextArea @bind-Value="_trail.Description" rows="6" class="form-control" id="trailDescription" />
-            <ValidationMessage For="@(()=> _trail.Description)" />
+            <ValidationMessage For="@(() => _trail.Description)" />
         </FormFieldSet>
+
         <FormFieldSet Width="col-6">
             <label for="trailLocation" class="font-weight-bold text-secondary">Location</label>
             <InputText @bind-Value="_trail.Location" class="form-control" id="trailLocation" />
-            <ValidationMessage For="@(()=> _trail.Location)"  />
+            <ValidationMessage For="@(() => _trail.Location)" />
         </FormFieldSet>
+
     </FormSection>
 
-    <FormSection Title="Difficulty" HelpText="Help other hikers out by telling them the length of the trail is how long it might take them.">
+    <FormSection Title="Difficulty"
+                 HelpText="Help other hikers out by telling them the length of the trail is how long it might take them.">
+
         <FormFieldSet Width="col-3">
             <label for="trailLength" class="font-weight-bold text-secondary">Length (km)</label>
             <InputNumber @bind-Value="_trail.Length" class="form-control" id="trailLength" />
-            <ValidationMessage For="@(()=> _trail.Length)"  />
+            <ValidationMessage For="@(() => _trail.Length)" />
         </FormFieldSet>
+
     </FormSection>
 
     <FormSection Title="Route Instructions"
@@ -78,7 +86,7 @@ else if (_errorMessage is not null)
                     </div>
                 </div>
                 <div class="col">
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label for="routeInstructionDescription" class="font-weight-bold text-secondary">Description</label>
                         <InputText @bind-Value="routeInstruction.Description" class="form-control" id="routeInstructionDescription" />
                         <ValidationMessage For="@(() => routeInstruction.Description)" />
@@ -102,25 +110,24 @@ else if (_errorMessage is not null)
         </div>
     </FormSection>
 
-
     <div class="mt-4 mb-5">
         <div class="row">
-            <div class="offset-4 col-8 text-end">
-                <button class="btn btn-outline-secondary" type="button" @onclick="@(()=>_trail =new TrailDto())">Reset</button>
+            <div class="offset-4 col-8 text-right">
+                <button class="btn btn-outline-secondary" type="button" @onclick="@(() => _trail = new TrailDto())">Reset</button>
                 <button class="btn btn-primary" type="submit">Submit</button>
             </div>
         </div>
     </div>
 </EditForm>
 
-@code{
-    private TrailDto _trail = new();
+@code {
+    private TrailDto _trail = new TrailDto();
     private bool _submitSuccessful;
     private string? _errorMessage;
 
-    private async Task SubmitForm() 
+
+    private async Task SubmitForm()
     {
-        //Submit data to API
         var response = await Mediator.Send(new AddTrailRequest(_trail));
         if (response.TrailId == -1)
         {
@@ -129,7 +136,6 @@ else if (_errorMessage is not null)
             return;
         }
 
-        //A new TrailDto instance is created, which resets the form ready for a new trail to be input.
         _trail = new TrailDto();
         _errorMessage = null;
         _submitSuccessful = true;
